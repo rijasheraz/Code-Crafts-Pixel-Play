@@ -1,0 +1,76 @@
+Spiral Text Animation
+HTML:
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title> spiral text animation</title>
+        <link rel="stylesheet" href="styles.css"/>
+    </head>
+    <body>
+        <div id="spiral"class="spiral"></div>
+        <div id="spiral2"class="spiral"></div>
+        <script src="script.js"></script>
+    </body>
+</html>     
+
+
+CSS:
+
+body,html{
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(104, 101, 101);
+    overflow: hidden;
+}
+.spiral{
+    display:flex;
+    align-items: center;
+    gap: 10px;
+    position: absolute;
+}
+
+@property --angle{
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes spiral{
+    0%{
+        --angle:0deg;
+    }
+    100%{
+        --angle:360deg;
+    }
+}
+.character{
+  color:rgb(252, 248, 248);
+  font-size: 5em;
+  transform: translateY(calc(sin(var(--angle))*100px)) scale(calc(cos(var(--angle))* 0.5 + 0.5)); 
+  animation: spiral 4s linear infinite; 
+}
+
+
+JS:
+const words = "i am graphic designer";
+const ANIMATION_DURATION = 4000;
+
+words.split("").forEach((char, i) => {
+    function createElement(offset) {
+        const div = document.createElement("div");
+        div.innerText = char;
+        div.classList.add("character");
+        div.style.animationDelay = `-${i * (ANIMATION_DURATION / 16) - offset}ms`;
+        return div;
+    }
+
+    document.getElementById("spiral").append(createElement(0));
+    document.getElementById("spiral2").append(createElement(-1 * (ANIMATION_DURATION / 2)));
+});
+
+
